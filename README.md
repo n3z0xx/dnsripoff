@@ -37,7 +37,7 @@ export FLASK_APP=dnsripoff_app
 export FLASK_DEBUG=1
 flask run
 ```
-##TODO
+## TODO
 1. Auth with roles.
 2. Storage db
 3. Storage UI
