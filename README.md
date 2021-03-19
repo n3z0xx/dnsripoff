@@ -26,7 +26,7 @@ git clone https://github.com/n3z0xx/dnsripoff.git
 SECRET_KEY = 'secret-key-goes-here'
 SQLALCHEMY_DATABASE_URI = 'sqlite:///db.sqlite'
 ```
-6. Init db(you can use python REPL)
+6. Init db IN A VENV!
 ```python
 from dnsripoff_app import db, create_app
 db.create_all(app=create_app())
