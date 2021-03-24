@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% if role == "admin" %}
+<div class="column is-4 is-offset-4">
+
+    <div class="box">
+        <h3 class="title">Edit {{ user.name }} role</h3>
+        <div class="block">
+            <p>
+                <strong>Username:</strong> {{ user.name }} <br>
+                <strong>Email:</strong> {{ user.email }} <br>
+                <strong>Current role:</strong> {{ user.role }}
+            </p>
+        </div>
+
+        <form method="POST" action="">
+            <div class="field">
+                <label class="label">Select role</label>
+                <div class="control">
+                    <div class="select">
+                        <select name="role">
+                            <option value="customer">Customer</option>
+                            <option value="employee">Employee</option>
+                            <option value="admin">Admin</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="field is-grouped">
+                <p class="control">
+                    <a href="{{ url_for('main.admin') }}" class="button is-warning is-large">Back</a>
+                </p>
+                <p class="control">
+                    <button class="button is-info is-large">Update</button>
+                </p>
+            </div>
+        </form>
+    </div>
+</div>
+{% else %}
+<section class="section">
+    <div class="notification is-danger">
+        <h1 class="title">
+            Тут вам быть нельзя!
+        </h1>
+        <h2 class="subtitle">
+            Проверьте под каким аккаунтом вы зашли.
+        </h2>
+    </div>
+</section>
+{% endif %}
+{% endblock %}

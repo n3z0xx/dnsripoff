@@ -8,13 +8,16 @@ from .models import User
 
 auth = Blueprint('auth', __name__)
 
+
 @auth.route('/login')
 def login():
     return render_template('login.html')
 
+
 @auth.route('/signup')
 def signup():
     return render_template('signup.html')
+
 
 @auth.route('/logout')
 @login_required
@@ -22,15 +25,14 @@ def logout():
     logout_user()
     return redirect(url_for('main.index'))
 
+
 @auth.route('/signup', methods=['POST'])
 def signup_post():
     email = request.form.get('email')
     name = request.form.get('name')
     password = request.form.get('password')
-    role = request.form.get("role")
-    #print("[DEBUG] *** role is:", str(role))
+    role = "customer"
 
-    # check if we already have this user
     user = User.query.filter_by(email=email).first()
     if user:
         flash('Email address already exists')
@@ -42,6 +44,7 @@ def signup_post():
     db.session.commit()
 
     return redirect(url_for('auth.login'))
+
 
 @auth.route('/login', methods=['POST'])
 def login_post():
