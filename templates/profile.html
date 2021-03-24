@@ -5,4 +5,7 @@
   Welcome, {{ name }}!
   Your role is {{ role }}
 </h1>
+{% if role == "admin" %}
+<a class="button is-danger" href="{{ url_for('main.admin') }}">Admin Panel</a>
+{% endif %}
 {% endblock %}

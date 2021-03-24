@@ -1,14 +1,59 @@
 {% extends "base.html" %}
 
 {% block content %}
+{%if role != "admin" %}
 <section class="section">
-  <div class="notification is-primary">
-    <h1 class="title">
-      Admin control page.
-    </h1>
-    <h2 class="subtitle">
-      Функционал будет добавлен позже.
-    </h2>
-  </div>
+    <div class="notification is-danger">
+        <h1 class="title">
+            Тут вам быть нельзя!
+        </h1>
+        <h2 class="subtitle">
+            Проверьте под каким аккаунтом вы зашли.
+        </h2>
+    </div>
 </section>
+{% else %}
+<section class="section">
+    <div class="notification is-primary">
+        <h1 class="title">
+            Admin control page.
+        </h1>
+        <h2 class="subtitle">
+            Wellcome, {{ name }}.
+        </h2>
+        <h2 class="subtitle">
+            Функционал будет добавлен позже.
+        </h2>
+    </div>
+</section>
+<section class="section">
+    <div class="box">
+        <h2 class="title">List of users</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>User name</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th>Edit</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                <tr>
+                    <th>{{ user.id }}</th>
+                    <td>{{ user.name }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.role }}</td>
+                    <td>
+                        <a href="/admin/{{ user.id }}" class="button is-primary">Edit</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+{% endif %}
 {% endblock %}
