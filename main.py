@@ -18,8 +18,9 @@ def profile():
 
 
 @main.route('/warehouse')
+@login_required
 def warehouse():
-    return render_template('warehouse.html')
+    return render_template('warehouse.html', role=current_user.role, name=current_user.name)
 
 
 @main.route('/admin')

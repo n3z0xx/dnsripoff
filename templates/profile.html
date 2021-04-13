@@ -8,4 +8,7 @@
 {% if role == "admin" %}
 <a class="button is-danger" href="{{ url_for('main.admin') }}">Admin Panel</a>
 {% endif %}
+{% if role == "employee" or role == "admin" %}
+<a class="button is-danger" href="{{ url_for('main.warehouse') }}">Warehouse Panel</a>
+{% endif %}
 {% endblock %}

@@ -1,5 +1,30 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1 class="title">Warehouse Page</h1>
+{%if role == "customer" %}
+<section class="section">
+    <div class="notification is-danger">
+        <h1 class="title">
+            Тут вам быть нельзя!
+        </h1>
+        <h2 class="subtitle">
+            Проверьте под каким аккаунтом вы зашли.
+        </h2>
+    </div>
+</section>
+{% else %}
+<section class="section">
+    <div class="notification is-primary">
+        <h1 class="title">
+            Warehouse control page.
+        </h1>
+        <h2 class="subtitle">
+            Wellcome, {{ name }}.
+        </h2>
+        <h2 class="subtitle">
+            Функционал будет добавлен позже.
+        </h2>
+    </div>
+</section>
+{% endif %}
 {% endblock%}
