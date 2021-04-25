@@ -15,11 +15,7 @@ class Product(db.Model):
     type_name = db.Column(db.String(200))
     price = db.Column(db.Integer)
     presence = db.Column(db.Integer)
-
-class Product_photo(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    url = db.Column(db.String(1000))
-    product_id = db.Column(db.Integer(), db.ForeignKey("product.id"))
+    photo_url = db.Column(db.String(200))
 
 class Cart(db.Model):
     id = db.Column(db.Integer, primary_key=True)

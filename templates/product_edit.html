@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% if role == "admin" or role == "employee" %}
+<div class="column is-4 is-offset-4">
+
+    <div class="box">
+        <h3 class="title">Edit {{ product.name }}</h3>
+
+        <form method="POST" action="">
+            <div class="field">
+                <div class="control">
+                    <input class="input" type="text" name="name" placeholder="Name" value="{{ product.name }}" required>
+                </div>
+            </div>
+            <div class="field">
+                <div class="control">
+                    <input class="input" type="text" name="description" placeholder="Description" value="{{ product.description }}" required>
+                </div>
+            </div>
+            <div class="field">
+                <div class="control">
+                    <input class="input" type="number" name="price" placeholder="price" value="{{ product.price }}" required>
+                </div>
+            </div>
+            <div class="field">
+                <div class="control">
+                    <input class="input" type="number" name="presence" placeholder="Presence" value="{{ product.presence }}" required>
+                </div>
+            </div>
+            <label class="label">Current type: {{ product.type_name }}</label>
+            <div class="field">
+                <label class="label">Select Type</label>
+                <div class="control">
+                    <div class="select">
+                        <select name="type" required>
+                            <option value="GPU">GPU</option>
+                            <option value="CPU">CPU</option>
+                            <option value="memory">Memory</option>
+                            <option value="SSD">SSD</option>
+                            <option value="HDD">HDD</option>
+                            <option value="motherboard">Motherboard</option>
+                            <option value="powersupply">Power Supply</option>
+                            <option value="cooler">Cooling System</option>
+                            <option value="case">Case</option>
+                            <option value="accessories">Accessories</option>
+                            <option value="explosives">Explosives</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <button class="button is-block is-info is-fullwidth">Update</button>
+        </form>
+    </div>
+</div>
+{% else %}
+<section class="section">
+    <div class="notification is-danger">
+        <h1 class="title">
+            Тут вам быть нельзя!
+        </h1>
+        <h2 class="subtitle">
+            Проверьте под каким аккаунтом вы зашли.
+        </h2>
+    </div>
+</section>
+{% endif %}
+{% endblock %}

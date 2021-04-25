@@ -37,32 +37,39 @@
             </div>
             {% endif %}
             {% endwith %}
-            <form method="POST" action="/warehouse">
+            <form method="POST" action="/warehouse" enctype="multipart/form-data">
+                <label class="label">Complete fill this form!</label>
                 <div class="field">
                     <div class="control">
-                        <input class="input" type="text" name="name" placeholder="Product Name">
+                        <input class="input" type="text" name="name" placeholder="Product Name" required>
                     </div>
                 </div>
                 <div class="field">
                     <div class="control">
-                        <input class="input" type="text" name="description" placeholder="Product Description">
+                        <input class="input" type="text" name="description" placeholder="Product Description" required>
                     </div>
                 </div>
                 <div class="field">
                     <div class="control">
-                        <input class="input" type="number" name="price" placeholder="Price">
+                        <input class="input" type="number" name="price" placeholder="Price" required>
                     </div>
                 </div>
                 <div class="field">
                     <div class="control">
-                        <input class="input" type="number" name="presence" placeholder="Presence">
+                        <input class="input" type="number" name="presence" placeholder="Presence" required>
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="label">Photo</label>
+                    <div class="control">
+                        <input class="input" type="file" name="file" required>
                     </div>
                 </div>
                 <div class="field">
                     <label class="label">Select Type</label>
                     <div class="control">
                         <div class="select">
-                            <select name="type">
+                            <select name="type" required>
                                 <option value="GPU">GPU</option>
                                 <option value="CPU">CPU</option>
                                 <option value="memory">Memory</option>
@@ -84,7 +91,7 @@
     </div>
 </section>
 <section class="section">
-    <h2 class="title">List of regustered products</h2>
+    <h2 class="title">List of registered products</h2>
     <div class="box">
         <table class="table">
             <thead>
@@ -92,6 +99,7 @@
                     <th>ID</th>
                     <th>Name</th>
                     <th>Type</th>
+                    <th>Photo URL</th>
                     <th>Price</th>
                     <th>Presence</th>
                     <th>Edit</th>
@@ -103,10 +111,11 @@
                     <th>{{ product.id }}</th>
                     <td>{{ product.name }}</td>
                     <td>{{ product.type_name }}</td>
+                    <td><a href="{{ url_for('static', filename='/photos/'+product.photo_url) }}">test</a></td>
                     <td>{{ product.price }}</td>
                     <td>{{ product.presence }}</td>
                     <td>
-                        <a href="#" class="button is-primary">Edit</a>
+                        <a href="/warehouse/{{ product.id }}" class="button is-primary">Edit</a>
                     </td>
                 </tr>
                 {% endfor %}

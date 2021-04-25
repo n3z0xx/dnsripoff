@@ -3,6 +3,9 @@ from flask.helpers import url_for
 from .models import User, Product
 from . import db
 from flask_login import login_required, current_user
+from werkzeug.utils import secure_filename
+from . import settigns
+import os
 
 #! debug
 import traceback
@@ -36,17 +39,50 @@ def warehouse_post():
     price = int(request.form.get("price"))
     presence = int(request.form.get("presence"))
     type_name = request.form.get("type")
-
+    file = request.files['file']
+    
     try:
-        new_product = Product(name=name, description=description, price=price, presence=presence, type_name=type_name)
-        db.session.add(new_product)
-        db.session.commit()
-        flash('Product registered successfully.')
-        return redirect(url_for('main.warehouse'))
+        # photo upload
+        if file and is_filename_allowed(file.filename):
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(settigns.RESOURCE_DIR, filename))
+
+            # registering product
+            new_product = Product(name=name, description=description, price=price, presence=presence, type_name=type_name, photo_url=filename)
+            db.session.add(new_product)
+
+            db.session.commit()
+            flash('Product registered successfully.')
+            return redirect(url_for('main.warehouse'))
+        else:
+            flash('Error while uploading photo.')
+            return redirect(url_for('main.warehouse'))
     except Exception as e:
         db.session.rollback()
         flash('DB commit fail. Check logs!')
         return redirect(url_for('main.warehouse'))
+
+
+@main.route('/warehouse/<int:id>', methods=["POST", "GET"])
+def update_product(id):
+    product = Product.query.get(id)
+    if request.method == 'POST':
+        product.name = request.form.get("name")
+        product.description = request.form.get("description")
+        product.price = int(request.form.get("price"))
+        product.presence = int(request.form.get("presence"))
+        product.type_name = request.form.get("type")
+        try:
+            db.session.commit()
+            return redirect(url_for('main.warehouse'))
+        except:
+            return "<h1>DB COMMIT FAIL.</h1>"
+    else:
+        return render_template("product_edit.html", product=product, role=current_user.role)
+
+
+def is_filename_allowed(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1] in settigns.ALLOWED_EXTENSIONS
 
 
 @main.route('/admin')
