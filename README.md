@@ -38,6 +38,8 @@ export FLASK_DEBUG=1
 flask run
 ```
 ## TODO
-1. Auth with roles.
-2. Storage db
-3. Storage UI
+1. Auth with roles. [DONE]
+2. Storage db       [0%]
+3. Storage UI       [20%]
+4. Store UI         [0%]
+5. Cart UI & logic  [0%]

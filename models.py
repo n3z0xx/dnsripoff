@@ -7,3 +7,24 @@ class User(UserMixin, db.Model):
     password = db.Column(db.String(100))
     name = db.Column(db.String(1000))
     role = db.Column(db.String(100))
+
+class Product(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(1000))
+    description = db.Column(db.Text)
+    type_name = db.Column(db.String(200))
+    price = db.Column(db.Integer)
+    presence = db.Column(db.Integer)
+
+class Product_photo(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    url = db.Column(db.String(1000))
+    product_id = db.Column(db.Integer(), db.ForeignKey("product.id"))
+
+class Cart(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer(), db.ForeignKey("user.id"))
+
+class Cart_product(db.Model):
+    cart_id = db.Column(db.Integer(), db.ForeignKey("cart.id"), primary_key=True)
+    product_id = db.Column(db.Integer(), db.ForeignKey("product.id"), primary_key=True)

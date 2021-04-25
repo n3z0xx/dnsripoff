@@ -26,5 +26,93 @@
         </h2>
     </div>
 </section>
+<section class="section">
+    <div class="column is-6">
+        <h3 class="title">Register new Product</h3>
+        <div class="box">
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            <div class="notification is-danger">
+                {{ messages[0] }}
+            </div>
+            {% endif %}
+            {% endwith %}
+            <form method="POST" action="/warehouse">
+                <div class="field">
+                    <div class="control">
+                        <input class="input" type="text" name="name" placeholder="Product Name">
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="control">
+                        <input class="input" type="text" name="description" placeholder="Product Description">
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="control">
+                        <input class="input" type="number" name="price" placeholder="Price">
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="control">
+                        <input class="input" type="number" name="presence" placeholder="Presence">
+                    </div>
+                </div>
+                <div class="field">
+                    <label class="label">Select Type</label>
+                    <div class="control">
+                        <div class="select">
+                            <select name="type">
+                                <option value="GPU">GPU</option>
+                                <option value="CPU">CPU</option>
+                                <option value="memory">Memory</option>
+                                <option value="SSD">SSD</option>
+                                <option value="HDD">HDD</option>
+                                <option value="motherboard">Motherboard</option>
+                                <option value="powersupply">Power Supply</option>
+                                <option value="cooler">Cooling System</option>
+                                <option value="case">Case</option>
+                                <option value="accessories">Accessories</option>
+                                <option value="explosives">Explosives</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <button class="button is-block is-info is-fullwidth">Register</button>
+            </form>
+        </div>
+    </div>
+</section>
+<section class="section">
+    <h2 class="title">List of regustered products</h2>
+    <div class="box">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Price</th>
+                    <th>Presence</th>
+                    <th>Edit</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for product in products %}
+                <tr>
+                    <th>{{ product.id }}</th>
+                    <td>{{ product.name }}</td>
+                    <td>{{ product.type_name }}</td>
+                    <td>{{ product.price }}</td>
+                    <td>{{ product.presence }}</td>
+                    <td>
+                        <a href="#" class="button is-primary">Edit</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
 {% endif %}
 {% endblock%}

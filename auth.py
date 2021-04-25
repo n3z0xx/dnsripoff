@@ -31,7 +31,7 @@ def signup_post():
     email = request.form.get('email')
     name = request.form.get('name')
     password = request.form.get('password')
-    role = "customer"
+    role = "customer"                           #! DEFAULT ROLE
 
     user = User.query.filter_by(email=email).first()
     if user:
