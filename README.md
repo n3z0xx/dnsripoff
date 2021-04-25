@@ -39,7 +39,7 @@ flask run
 ```
 ## TODO
 1. Auth with roles. [DONE]
-2. Storage db       [0%]
-3. Storage UI       [20%]
+2. Storage db       [TESTING]
+3. Storage UI       [80%]
 4. Store UI         [0%]
 5. Cart UI & logic  [0%]
