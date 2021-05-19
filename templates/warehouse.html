@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-{%if role == "customer" %}
+{%if role >= 3 %}
 <section class="section">
     <div class="notification is-danger">
         <h1 class="title">
@@ -70,17 +70,9 @@
                     <div class="control">
                         <div class="select">
                             <select name="type" required>
-                                <option value="GPU">GPU</option>
-                                <option value="CPU">CPU</option>
-                                <option value="memory">Memory</option>
-                                <option value="SSD">SSD</option>
-                                <option value="HDD">HDD</option>
-                                <option value="motherboard">Motherboard</option>
-                                <option value="powersupply">Power Supply</option>
-                                <option value="cooler">Cooling System</option>
-                                <option value="case">Case</option>
-                                <option value="accessories">Accessories</option>
-                                <option value="explosives">Explosives</option>
+                                {% for ptype in ptypes %}
+                                    <option value="{{ ptype.type_id }}">{{ ptype.type_name }}</option>
+                                {% endfor %}
                             </select>
                         </div>
                     </div>

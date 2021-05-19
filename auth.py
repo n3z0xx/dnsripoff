@@ -4,7 +4,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from .models import User
 from flask_login import login_user
 from flask_login import login_user, logout_user, login_required
-from .models import User
+from .models import User, User_roles
 
 auth = Blueprint('auth', __name__)
 
@@ -31,7 +31,7 @@ def signup_post():
     email = request.form.get('email')
     name = request.form.get('name')
     password = request.form.get('password')
-    role = "customer"                           #! DEFAULT ROLE
+    role = User_roles.query.filter_by(role_name="customer").first().role_id                         #! DEFAULT ROLE MUST BE FILLED
 
     user = User.query.filter_by(email=email).first()
     if user:

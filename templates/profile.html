@@ -5,10 +5,10 @@
   Welcome, {{ name }}!
   Your role is {{ role }}
 </h1>
-{% if role == "admin" %}
+{% if role == 1 %}
 <a class="button is-danger" href="{{ url_for('main.admin') }}">Admin Panel</a>
 {% endif %}
-{% if role == "employee" or role == "admin" %}
+{% if role == 2 or role == 1 %}
 <a class="button is-danger" href="{{ url_for('main.warehouse') }}">Warehouse Panel</a>
 {% endif %}
 {% endblock %}

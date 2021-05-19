@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-{%if role != "admin" %}
+{%if role.role_id < 1 %}
 <section class="section">
     <div class="notification is-danger">
         <h1 class="title">
