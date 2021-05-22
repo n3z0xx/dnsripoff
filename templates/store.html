@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% if status == 'ok'%}
+<h1 class="title">Выберите {{ step_name }}</h1>
+<div class="container is-flex" style="flex-wrap: wrap;">
+    {% for p in products %}
+    <div class="box" style="margin: 5px; min-width: 220px; max-width: 300px;">
+        <figure class="image">
+            <img src="{{ url_for('static', filename='/photos/'+p.photo_url) }}" alt="Placeholder image">
+        </figure>
+        <p class="title">{{ p.name }}</p>
+        <p class="subtitle">{{ p.description }}</p>
+        <a href="{{ url_for('main.store') + '/' + p.id|string }}" class="button is-success">Выбрать эту</a>
+    </div>
+    {% endfor %}    
+</div>
+{% else %}
+<section class="section">
+    <div class="notification is-danger">
+        <h1 class="title">
+            Произошла ошибка!
+        </h1>
+        <h2 class="subtitle">
+            status={{status}}
+        </h2>
+    </div>
+</section>
+{% endif %}
+{% endblock %}

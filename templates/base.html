@@ -6,7 +6,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>DNS [ripoff]</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 
 <body>
@@ -18,7 +20,7 @@
                         <h1 class="title">DNS [ripoff]</h1>
                     </a>
                 </div>
-                <div class="navbar-menu">
+                <div class="navbar-menu is-active">
                     <div class="navbar-start">
                         <a href="{{ url_for('main.index') }}" class="navbar-item">
                             Home
@@ -57,9 +59,19 @@
     <section class="hero-body">
         <div class="container">
             {% block content %}
-            {% endblock %}
+            {% endblock %}  
         </div>
     </section>
+    <footer class="footer">
+        <div class="content has-text-centered">
+          <p>
+            <strong>DNSripoff</strong> by <a href="https://vk.com/unfairadvantage">Roman Tyatyukov</a>. The source code is licensed
+            <a href="http://opensource.org/licenses/mit-license.php">MIT</a>. The website content
+            is licensed <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY NC SA 4.0</a>. <br>
+            This site created <strong>only</strong> for testing and showcasing. This site is not realted to <a href="https://www.dns-shop.ru/">DNS</a>.
+          </p>
+        </div>
+      </footer>
 </body>
 
 </html>

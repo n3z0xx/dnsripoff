@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, redirect, url_for, request, flash
 from . import db
 from werkzeug.security import generate_password_hash, check_password_hash
-from .models import User
+from .models import User, Cart
 from flask_login import login_user
 from flask_login import login_user, logout_user, login_required
 from .models import User, User_roles
@@ -32,15 +32,21 @@ def signup_post():
     name = request.form.get('name')
     password = request.form.get('password')
     role = User_roles.query.filter_by(role_name="customer").first().role_id                         #! DEFAULT ROLE MUST BE FILLED
+    
+    #! idk is it necessary?
+    step = 1; 
 
     user = User.query.filter_by(email=email).first()
     if user:
         flash('Email address already exists')
         return redirect(url_for('auth.signup'))
 
-    new_user = User(email=email, name=name, password=generate_password_hash(password, method='sha256'), role=role)
-
+    
+    new_user = User(email=email, name=name, password=generate_password_hash(password, method='sha256'), role=role, step=step)
     db.session.add(new_user)
+    db.session.flush()
+    new_cart = Cart(user_id=new_user.id)
+    db.session.add(new_cart)
     db.session.commit()
 
     return redirect(url_for('auth.login'))
@@ -59,4 +65,4 @@ def login_post():
         return redirect(url_for('auth.login'))
 
     login_user(user, remember=remember)
-    return redirect(url_for('main.profile'))
+    return redirect(url_for('main.index'))

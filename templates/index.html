@@ -1,14 +1,11 @@
 {% extends "base.html" %}
 
 {% block content %}
-<section class="section">
-  <div class="notification is-primary">
-    <h1 class="title">
-      Index.html, тут будет только приглашение
-    </h1>
-    <h2 class="subtitle">
-      Никаких товаров, парочка кнопочек и скорее всего Hero.
-    </h2>
-  </div>
+<section class="section is-large">
+  <h1 class="title">Соберите свою СОБСТВЕННЫЙ ПК</h1>
+  <h2 class="subtitle">
+    Просто <strong>выберите</strong> какие комплектующие нужны и мы соберем за ПК Вас
+  </h2>
+  <a href="{{ url_for('main.store') }}" class="button is-success is-light is-large is-outlined">начать</a>
 </section>
 {% endblock %}

@@ -1,6 +1,7 @@
-from flask import Blueprint, render_template, request, redirect, flash
+from flask import Blueprint, render_template, request, redirect, flash, send_from_directory
 from flask.helpers import url_for
-from .models import User, Product, User_roles, Product_types
+from flask.templating import render_template_string
+from .models import User, Product, User_roles, Product_types, Cart, Cart_product
 from . import db
 from flask_login import login_required, current_user
 from werkzeug.utils import secure_filename
@@ -12,6 +13,10 @@ import traceback
 import logging
 
 main = Blueprint('main', __name__)
+
+
+def favicon():
+    return send_from_directory(os.path.join(main.root_path, 'static'), 'favicon.ico')
 
 @main.route('/')
 def index():
@@ -107,3 +112,38 @@ def update(id):
             return "<h1>DB COMMIT FAIL.</h1>"
     else:
         return render_template("user_edit.html", user=user, role=current_user.role)
+
+
+@main.route("/store")
+@login_required
+def store():
+    max_steps = db.session.query(Product_types).order_by(Product_types.type_id.desc()).first().type_id
+    step = current_user.step;
+    if step < max_steps:
+        products = Product.query.filter_by(type_id=step)
+        if products.count() != 0:
+            step_name = Product_types.query.get(products[0].type_id).type_name
+            return render_template('store.html', products=products, step_name=step_name, status="ok")
+        else:
+            return render_template('store.html', status="no products available")
+    else:
+        return redirect(url_for('main.cart'))
+
+
+@main.route("/store/<int:id>", methods=["GET"])
+@login_required
+def add_to_cart(id):
+    current_user.step = Product.query.get(id).type_id + 1;
+    new_cart_product = Cart_product(cart_id=Cart.query.filter_by(user_id=current_user.id).first().id, product_id=id)
+    db.session.add(new_cart_product)
+    try:
+        db.session.commit()
+        return redirect(url_for("main.store"))
+    except:
+        return "<h1>DB COMMIT FAIL. Please report this bug!</h1>"
+
+
+@main.route("/cart")
+@login_required
+def cart():
+    return render_template("cart.html")
