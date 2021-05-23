@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block content %}
+{%if role >= 3 %}
+<section class="section">
+    <div class="notification is-danger">
+        <h1 class="title">
+            Тут вам быть нельзя!
+        </h1>
+        <h2 class="subtitle">
+            Проверьте под каким аккаунтом вы зашли.
+        </h2>
+    </div>
+</section>
+{% else %}
+<h1 class="title">Список заказов</h1>
+<br class="section">
+    {% for d in data %}
+    <br>
+    <h1 class="title">{{ d[0].name }}</h1>
+    <div class="box" style="margin: 5px; min-width: 600px; max-width: 600px;">
+        <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Presence</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in range(2, max_steps+2)%}
+                <tr>
+                    <td>{{ d[i].name }}</td>
+                    <td><p class="{% if d[i].presence <= 0 %} has-background-danger {% endif %}">{{ d[i].presence }}</p></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <p class="subtitle">Текущий прогресс: {{ d[1] }}%</p>
+        <form action="/orders" method="POST">
+            <div class="field">
+                <div class="control">
+                    <input type="number" style="visibility: hidden;" name="id" value="{{d[0].id}}">
+                </div>
+            </div>
+            <div class="field">
+                <div class="control">
+                    <label class="label">Изменить:</label>
+                    <input class="slider is-warning" name="progress" step="1" min="0" max="100" value="{{ d[1] }}" type="range">
+                </div>
+            </div>
+            <button class="button is-warning">Применить</button>
+        </form>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+{% endblock %}

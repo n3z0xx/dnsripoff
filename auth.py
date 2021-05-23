@@ -31,7 +31,7 @@ def signup_post():
     email = request.form.get('email')
     name = request.form.get('name')
     password = request.form.get('password')
-    role = User_roles.query.filter_by(role_name="customer").first().role_id                         #! DEFAULT ROLE MUST BE FILLED
+    role = User_roles.query.filter_by(role_name="Customer").first().role_id                         #! DEFAULT ROLE MUST BE FILLED
     
     #! idk is it necessary?
     step = 1; 
@@ -45,7 +45,7 @@ def signup_post():
     new_user = User(email=email, name=name, password=generate_password_hash(password, method='sha256'), role=role, step=step)
     db.session.add(new_user)
     db.session.flush()
-    new_cart = Cart(user_id=new_user.id)
+    new_cart = Cart(user_id=new_user.id, progress=10, is_paid=False)
     db.session.add(new_cart)
     db.session.commit()
 

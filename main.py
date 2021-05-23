@@ -70,6 +70,7 @@ def warehouse_post():
 
 
 @main.route('/warehouse/<int:id>', methods=["POST", "GET"])
+@login_required
 def update_product(id):
     product = Product.query.get(id)
     product_types = Product_types.query.all()
@@ -88,6 +89,20 @@ def update_product(id):
         return render_template("product_edit.html", product=product, role=current_user.role, ptypes=product_types)
 
 
+@main.route('/warehouse/<int:id>/delete')
+@login_required
+def delete_product(id):
+    product = Product.query.get_or_404(id)
+
+    try:
+        db.session.delete(product)
+        db.session.commit()
+        flash("Продукт удален")
+        return redirect(url_for("main.warehouse"))
+    except:
+        return "Произошла ошибка!"
+    
+    
 def is_filename_allowed(filename):
     return '.' in filename and filename.rsplit('.', 1)[1] in settigns.ALLOWED_EXTENSIONS
 
@@ -119,7 +134,7 @@ def update(id):
 def store():
     max_steps = db.session.query(Product_types).order_by(Product_types.type_id.desc()).first().type_id
     step = current_user.step;
-    if step < max_steps:
+    if step <= max_steps:
         products = Product.query.filter_by(type_id=step)
         if products.count() != 0:
             step_name = Product_types.query.get(products[0].type_id).type_name
@@ -146,4 +161,82 @@ def add_to_cart(id):
 @main.route("/cart")
 @login_required
 def cart():
-    return render_template("cart.html")
+    step = current_user.step;
+    max_steps = db.session.query(Product_types).order_by(Product_types.type_id.desc()).first().type_id
+    if step >= max_steps:
+        cart = Cart.query.filter_by(user_id=current_user.id).first()
+        cart_products = Cart_product.query.filter_by(cart_id=cart.id)
+        products = []
+        presence = True
+        price = 0
+        for p in cart_products:
+            product = Product.query.get(p.product_id)
+            products.append(product)
+            price += product.price
+            if product.presence <= 0:
+                presence = False
+        return render_template("cart.html", products=products, progress=cart.progress, presence=presence, price=price, is_paid=cart.is_paid)
+    else:
+        return redirect(url_for('main.store'))
+
+
+@main.route("/cart", methods=['POST'])
+@login_required
+def complete_order():
+    cart = Cart.query.filter_by(user_id=current_user.id).first()
+    cart_products = Cart_product.query.filter_by(cart_id=cart.id)
+    for p in cart_products:
+        product = Product.query.get(p.product_id)
+        product.presence = product.presence - 1
+    
+    Cart_product.query.filter_by(cart_id=cart.id).delete()
+    current_user.step = 1
+    cart.progress = 10
+    cart.is_paid = False
+    db.session.commit()
+
+    return redirect(url_for("main.end"))
+
+
+@main.route("/cart/payment")
+@login_required
+def complete_payment():
+    cart = Cart.query.filter_by(user_id=current_user.id).first()
+    cart.is_paid = True
+    db.session.commit()
+    flash("Успешная оплата!")
+    return redirect(url_for("main.cart"))
+
+@main.route("/orders")
+@login_required
+def orders():
+    max_steps = db.session.query(Product_types).order_by(Product_types.type_id.desc()).first().type_id
+    users = User.query.filter_by(step=max_steps+1)
+    data = []
+    for user in users:
+        cart = Cart.query.filter_by(user_id=user.id).first()
+        cart_products = Cart_product.query.filter_by(cart_id=cart.id)
+        info = [user, cart.progress]
+        for p in cart_products:
+            product = Product.query.get(p.product_id)
+            info.append(product)
+        data.append(info)
+    return render_template("orders.html", role=current_user.role, data=data, max_steps=max_steps)
+
+
+@main.route("/orders", methods=['POST'])
+@login_required
+def change_progress():
+    user_id = request.form.get("id")
+    progress = request.form.get("progress")
+    
+    cart = Cart.query.filter_by(user_id=user_id).first()
+    cart.progress = progress
+    db.session.commit()
+    return redirect(url_for("main.orders"))
+
+
+@main.route("/end")
+@login_required
+def end():
+    return render_template("end.html")

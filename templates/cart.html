@@ -1,4 +1,45 @@
 {% extends "base.html" %}
 {% block content %}
-<h1 class="title">Cart is currently under development</h1>
+<div class="section">
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <div class="notification is-success">
+        {{ messages[0] }}
+    </div>
+    {% endif %}
+    {% endwith %}
+    <div class="block">
+        <h1 class="title">Ваш заказ стоимостью:<p class="has-text-success">${{ price }}</p>
+        </h1>
+        <p class="subtitle {% if is_paid %} has-text-success {% else %} has-text-danger {% endif %}">Статус:
+            {% if is_paid %} оплачен {% else %} не оплачен {% endif %}</p>
+        {% if not(is_paid) %}
+        <a href="{{ url_for('main.complete_payment') }}" class="button is-block is-info is-large" style="width: 200px;">оплатить</a>
+        {% endif %}
+    </div>
+    <div class="container is-flex" style="flex-wrap: wrap;">
+        {% for p in products %}
+        <div class="box" style="margin: 5px; min-width: 220px; max-width: 300px;">
+            <figure class="image">
+                <img src="{{ url_for('static', filename='/photos/'+p.photo_url) }}" alt="Placeholder image">
+            </figure>
+            <p class="title">{{ p.name }}</p>
+            <p class="subtitle">{{ p.description }}</p>
+            <p class="subtitle has-text-success">${{ p.price }}</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+<div class="section">
+    <h1 class="title">Прогресс выполнения: </h1>
+    <progress class="progress is-large is-success" value="{{ progress }}" max="100">{{ progress }}%</progress>
+</div>
+{% if progress == 100 and presence == True and is_paid %}
+<div class="section">
+    <h1 class="title">Подтвердить выполнение:</h1>
+    <form action="" method="POST">
+        <button class="button is-block is-info is-large is-fullwidth">Подтвердить</button>
+    </form>
+</div>
+{% endif %}
 {% endblock %}

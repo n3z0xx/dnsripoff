@@ -3,12 +3,16 @@
 {% block content %}
 <h1 class="title">
   Welcome, {{ name }}!
-  Your role is {{ role }}
+  Уровень доступа: {{ role }}
 </h1>
 {% if role == 1 %}
 <a class="button is-danger" href="{{ url_for('main.admin') }}">Admin Panel</a>
 {% endif %}
 {% if role == 2 or role == 1 %}
 <a class="button is-danger" href="{{ url_for('main.warehouse') }}">Warehouse Panel</a>
+<a class="button is-danger" href="{{ url_for('main.orders') }}">Orders Panel</a>
+{% endif %}
+{% if role == 2 or role == 1 or role==3 %}
+<a class="button is-info" href="{{ url_for('main.cart') }}">Корзина</a>
 {% endif %}
 {% endblock %}

@@ -21,6 +21,8 @@ class Product(db.Model):
 class Cart(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer(), db.ForeignKey("user.id"))
+    progress = db.Column(db.Integer())
+    is_paid = db.Column(db.Boolean())
 
 class Cart_product(db.Model):
     cart_id = db.Column(db.Integer(), db.ForeignKey("cart.id"), primary_key=True)

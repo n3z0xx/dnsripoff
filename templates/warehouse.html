@@ -85,7 +85,7 @@
 <section class="section">
     <h2 class="title">List of registered products</h2>
     <div class="box">
-        <table class="table">
+        <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
             <thead>
                 <tr>
                     <th>ID</th>
@@ -105,7 +105,7 @@
                     <td>{{ product.type_id }}</td>
                     <td><a href="{{ url_for('static', filename='/photos/'+product.photo_url) }}">test</a></td>
                     <td>{{ product.price }}</td>
-                    <td>{{ product.presence }}</td>
+                    <td><p class="{% if product.presence <= 0 %} has-background-danger {% endif %}">{{ product.presence }}</p></td>
                     <td>
                         <a href="/warehouse/{{ product.id }}" class="button is-primary">Edit</a>
                     </td>

@@ -2,27 +2,31 @@
 
 {% block content %}
 {% if role < 3 %}
-<div class="column is-4 is-offset-4">
+<div class="column is-8 is-offset-2">
 
     <div class="box">
         <h3 class="title">Edit {{ product.name }}</h3>
 
         <form method="POST" action="">
+            <label class="label">Name</label>
             <div class="field">
                 <div class="control">
                     <input class="input" type="text" name="name" placeholder="Name" value="{{ product.name }}" required>
                 </div>
             </div>
+            <label class="label">Description</label>
             <div class="field">
                 <div class="control">
                     <input class="input" type="text" name="description" placeholder="Description" value="{{ product.description }}" required>
                 </div>
             </div>
+            <label class="label">Price</label>
             <div class="field">
                 <div class="control">
                     <input class="input" type="number" name="price" placeholder="price" value="{{ product.price }}" required>
                 </div>
             </div>
+            <label class="label">Presence</label>
             <div class="field">
                 <div class="control">
                     <input class="input" type="number" name="presence" placeholder="Presence" value="{{ product.presence }}" required>
@@ -41,7 +45,8 @@
                     </div>
                 </div>
             </div>
-            <button class="button is-block is-info is-fullwidth">Update</button>
+            <button class="button is-info">Update</button>
+            <a href="/warehouse/{{product.id}}/delete" class="button is-danger" style="margin-left: 100px;">DELETE</a>
         </form>
     </div>
 </div>
