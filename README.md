@@ -1,7 +1,7 @@
 # dnsripoff
 Simple flask App or my try to copy DNS site functionality.
 
-## How to run:
+## How to run(outdated):
 1. Create folder
 ```bash
 mkdir dnsripoff
