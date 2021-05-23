@@ -42,4 +42,4 @@ flask run
 2. Storage db       [DONE]
 3. Storage UI       [DONE]
 4. Store UI         [TESTING]
-5. Cart UI & logic  [30%]
+5. Cart UI & logic  [TESTING]
