@@ -79,7 +79,7 @@ def update_product(id):
         product.description = request.form.get("description")
         product.price = int(request.form.get("price"))
         product.presence = int(request.form.get("presence"))
-        product.type_name = request.form.get("type")
+        product.type_id = request.form.get("type")
         try:
             db.session.commit()
             return redirect(url_for('main.warehouse'))
