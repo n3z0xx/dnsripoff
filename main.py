@@ -8,10 +8,6 @@ from werkzeug.utils import secure_filename
 from . import settigns
 import os
 
-#! debug
-import traceback
-import logging
-
 main = Blueprint('main', __name__)
 
 
